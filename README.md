@@ -36,19 +36,106 @@
        test = 100000000     
 ```
 
+* 测试函数
+```C
+    void testParseConf(int argc, char* argv[]){
+        //传入需要被解析的文件
+        if(argc < 2){
+            printf("    Usage:\n\r        ./parseConf <configure file> \n\n");
+            return ;
+        }
+    
+        /**
+         * 获取键值对,键值对头节点保存在keyValues中
+         */
+        kvpair* keyValues;
+        getkvpairs(argv[1], &keyValues);
+        printf("\n\033[32m\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\033[36mDemo\033[32m/////////////////\033[0m\n");
+    
+        /**
+         * 将配置文件中的内容打印出来
+         */
+        int fd = open(argv[1], O_RDONLY);
+        if(-1 == fd){
+            perror("open file error");
+        }
+    
+        char buffer[1024] = {0};
+        read(fd, buffer, 1024);
+        printf("%s\n", buffer);
+    
+        close(fd);
+    
+        /**
+         * 将当前的所有的键值对打印出来
+         */
+        printkvpairs(keyValues);
+        /**
+         * 通过key获取value值
+         */
+        char* key = "rows";
+        printf("\033[32mgetValueBykey:key = %s; value = %s\033[0m\n", key, key2val(key, keyValues));
+        /**
+         * 通过value获取key值
+         */
+        char* value = "24";
+        printf("\033[32mgetKeyByValue:value = %s; key = %s\033[0m\n", value, val2key(value, keyValues));
+        printf("\033[32m--------------------------------------\033[0m\n");
+        /**
+         * 释放keyValues链表
+         */
+        if(freekvpairs(keyValues) == 0){
+            printf("\033[32m Memory of keyValues linked has freed\033[0m\n");
+            printf("\033[32m--------------------------------------\033[0m\n");
+        }
+    }
+```
+
 * 解析配置文件结果
 
 ```
-    001: t    itle=c   harMaps
-    002: up=looking
-    003: rows=24
-    004: r ows=25
-    005: c    ols=88   0
-    006: cols=888  0
-    007: interval=1   0000
-    008: version=11.0
-    009: lkjk  ng=i  an   f  n  ig
-    010: test=100000000
+    \\\\\\\\\\\\\\\\\Demo/////////////////
+    #title = charMaps
+          t    itle = c   harMaps
+        #jfdalj    lasdfjl jflds
+    jfdsljf
+    =fjldsfsjd
+    up     = looking
+            rows = 24    #jals    djfaldjfals
+            r ows = 25    #jals    djfaldjfals
+    c    ols =       8    0
+    
+        =    fsdfa
+    
+    c    ols =       88   0
+    jsflsjfd
+    jfsldjaf
+    tadjfsldjf=
+    
+    cols=88   0
+    cols=888  0
+    interval    = 1   0000
+    version = 11.0
+       lkjk  ng     =    i  an   f  n  ig
+       test = 100000000     
+    
+    --------------------------------------
+       001: t    itle=c   harMaps
+       002: up=looking
+       003: rows=24
+       004: r ows=25
+       005: c    ols=88   0
+       006: cols=888  0
+       007: interval=1   0000
+       008: version=11.0
+       009: lkjk  ng=i  an   f  n  ig
+       010: test=100000000
+    --------------------------------------
+    getValueBykey:key = rows; value = 24
+    getKeyByValue:value = 24; key = rows
+    --------------------------------------
+     Memory of keyValues linked has freed
+    --------------------------------------
 ```
 
 ## 配置文件的书写规范:
