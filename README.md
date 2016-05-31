@@ -8,6 +8,7 @@
 从配置文件中取出键值对(keyvalue)，以链表的方式存放，并提供一系列方便使用的方法。
 
 ## 解析示例
+
 * 假如配置文件中的内容 
 
 ```
@@ -138,13 +139,13 @@
     --------------------------------------
 ```
 
-## 配置文件的书写规范:
+## 配置文件的书写规范
 1. 键值对(keyvalue)以key=value的形式存在，等号两边可以出现空格;
 2. 对于不能构成键值对(keyvalue)的key或value都会被忽略;
 3. '#'为行注释符，目前只支持单行注释，不提供多行注释;  :)
 4. 如果解析中发现键值对中key相同，那么取最后那次的键值对为最终键值对;
 
-## valgrind内存泄露检查:
+## valgrind内存泄露检查
     [user@localhost parseConf]$ valgrind ./parseConf properties.conf 
     ==6325== Memcheck, a memory error detector
     ==6325== Copyright (C) 2002-2009, and GNU GPL'd, by Julian Seward et al.
@@ -162,6 +163,6 @@
     ==6325== For counts of detected and suppressed errors, rerun with: -v
     ==6325== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 12 from 8)
 
-## Author:
+## Author
 
 [曾剑锋](http://www.cnblogs.com/zengjfgit/)
